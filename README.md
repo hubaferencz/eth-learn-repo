@@ -1,14 +1,6 @@
+# Learning Ethereum, Solidity, and Smart Contracts
+Documenting my journey on learning how to use Ethereum, Solidity, and Smart Contracts to build production-ready apps based on the blockchain
 
 
+![](https://ethereum.org/static/810eb64d89629231aa4d8c7fe5f20ee5/69de1/developers-eth-blocks.webp?raw=true)
 
----
-layout: page
-title: Page Test
-aside: "Here you can even use <strong>HTML</strong>. Even <a href='http://jekyllrb.com'>Links</a>. But it looks nasty."
----
-
-Article content
-* Hey this is my content!
-
-Aside content
-* {{ page.aside }}

@@ -1,11 +1,7 @@
 import { useState } from "react";
 import server from "./server";
-import wallet from "./LocalWallet";
 
-/**
- * Manage coin transfer.
- */
-function Transfer({ user, setBalance }) {
+function Transfer({ address, setBalance }) {
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
 
@@ -14,28 +10,17 @@ function Transfer({ user, setBalance }) {
   async function transfer(evt) {
     evt.preventDefault();
 
-    // build the transaction payload composed of
-    // the message itself (amount to transfer and recipient) and
-    // the signature of the transaction build from the user private key
-    // and the message, inside the wallet.
-    const message = {
-      amount: parseInt(sendAmount),
-      recipient,
-    };
-    const signature = await wallet.sign(user, message);
-    const transaction = {
-      message,
-      signature,
-    };
-
     try {
       const {
         data: { balance },
-      } = await server.post(`send`, transaction);
-
+      } = await server.post(`send`, {
+        sender: address,
+        amount: parseInt(sendAmount),
+        recipient,
+      });
       setBalance(balance);
     } catch (ex) {
-      alert(ex);
+      alert(ex.response.data.message);
     }
   }
 
@@ -48,15 +33,17 @@ function Transfer({ user, setBalance }) {
         <input
           placeholder="1, 2, 3..."
           value={sendAmount}
-          onChange={setValue(setSendAmount)}></input>
+          onChange={setValue(setSendAmount)}
+        ></input>
       </label>
 
       <label>
         Recipient
         <input
-          placeholder="Type an user address, for example: BE13..."
+          placeholder="Type an address, for example: 0x2"
           value={recipient}
-          onChange={setValue(setRecipient)}></input>
+          onChange={setValue(setRecipient)}
+        ></input>
       </label>
 
       <input type="submit" className="button" value="Transfer" />
